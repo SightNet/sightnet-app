@@ -1,0 +1,20 @@
+[package]
+name = "p2p"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lazy_static = "1.4.0"
+bytes = { version = "1.4.0", features = ["serde"]}
+color-eyre = "0.6.2"
+log = "0.4"
+pretty_env_logger = "0.4"
+config = "0.13.3"
+serde = "1.0.159"
+serde_json = "1.0.95"
+sightnet_core = { path = "../sightnet-core" }
+async-std = { version = "1.12", features = ["attributes"] }
+async-trait = "0.1"
+futures = "0.3.28"
+tokio = { version = "1.27.0", features = ["sync"] }
+libp2p = { version = "0.51.2", features = ["async-std", "gossipsub", "mdns", "noise", "macros", "tcp", "yamux", "quic", "request-response"] }

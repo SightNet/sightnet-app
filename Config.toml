@@ -1,0 +1,2 @@
+db_path = "../sightnet-core/out.bin"
+bootstrap_nodes = []
