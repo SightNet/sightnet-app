@@ -1,2 +1,3 @@
-db_path = "../sightnet-core/out.bin"
+db_url = "http://localhost:1551"
+db_name = "websites"
 bootstrap_nodes = []
