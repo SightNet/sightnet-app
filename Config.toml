@@ -1,2 +1,2 @@
 db_url = "http://localhost:1551"
-bootstrap_nodes = []
+bootstrap_nodes = [] #now it doesnt work
