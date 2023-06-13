@@ -2,7 +2,7 @@ use std::{collections::hash_map::DefaultHasher, env, str::FromStr};
 use std::error::Error;
 use std::fmt::Formatter;
 use std::hash::{Hash, Hasher};
-use std::time::Duration;
+use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 use async_std::io;
 use config::Config;
@@ -95,10 +95,12 @@ pub async fn start() -> Result<(), Box<dyn Error>> {
         })
         .boxed();
 
-    let message_id_fn = |message: &Message| {
-        let mut s = DefaultHasher::new();
+    let message_id_fn = |_message: &Message| {
+        let id = SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_millis();
+        gossipsub::MessageId::from(id.to_string())
+        /*let mut s = DefaultHasher::new();
         message.data.hash(&mut s);
-        gossipsub::MessageId::from(s.finish().to_string())
+        gossipsub::MessageId::from(s.finish().to_string())*/
     };
 
     let gossipsub_config = ConfigBuilder::default()
@@ -111,8 +113,7 @@ pub async fn start() -> Result<(), Box<dyn Error>> {
     let mut gossipsub = Behaviour::new(
         MessageAuthenticity::Signed(id_keys),
         gossipsub_config,
-    )
-        .expect("Correct configuration");
+    ).expect("Correct configuration");
     let topic = IdentTopic::new("sightnet");
     gossipsub.subscribe(&topic)?;
 
@@ -129,7 +130,7 @@ pub async fn start() -> Result<(), Box<dyn Error>> {
     swarm.listen_on("/ip4/0.0.0.0/udp/0/quic-v1".parse()?)?;
     swarm.listen_on("/ip4/0.0.0.0/tcp/0".parse()?)?;
 
-    let mut send = |swarm: &mut Swarm<MyBehaviour>, text: String| {
+    let send = |swarm: &mut Swarm<MyBehaviour>, text: String| {
         if let Err(e) = swarm.behaviour_mut().gossipsub.publish(topic.clone(), text.as_bytes()) {
             println!("Send error: {e:?}");
         }
