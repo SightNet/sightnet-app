@@ -1,3 +1,2 @@
 db_url = "http://localhost:1551"
-db_name = "websites"
 bootstrap_nodes = []

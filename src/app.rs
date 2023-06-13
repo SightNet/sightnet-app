@@ -16,7 +16,6 @@ use libp2p::gossipsub::*;
 #[derive(Debug, Deserialize)]
 pub struct Cfg {
     pub db_url: String,
-    pub db_name: String,
     pub bootstrap_nodes: Vec<String>,
 }
 
@@ -53,7 +52,7 @@ lazy_static! {
 }
 
 async fn search(query: String) -> Vec<SearchResult> {
-    let url = format!("{}/col/{}/search?q={}", CFG.db_url, CFG.db_name, query);
+    let url = format!("{}/col/websites/search?q={}", CFG.db_url, query);
     let res: serde_json::Value = ureq::get(url.as_str()).call()
         .expect("Response").into_json().expect("Valid json");
     let error = res.get("error");
