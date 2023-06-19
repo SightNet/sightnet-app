@@ -1,12 +1,11 @@
-# SightNet App
+# App (under development)
 
-## Set up
+## Setting up
 
-1. Set up server(edit cfg and run)
+1. Run core server
 2. Run init.sh
 3. Crawl websites via crawler (OPTIONAL)
-4. Edit Config.toml (OPTIONAL)
-5. Run: `cargo run`
+4. Run: `cargo run`
 
 ## How does it work?
 
